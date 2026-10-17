@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/ofbiz-properties.xsd">
+
+    <property key="TranslateJpApplication">
+        <value xml:lang="en">JP Translation</value>
+        <value xml:lang="ja">日本語翻訳 (JP Translation)</value>
+    </property>
+    <property key="TranslateJpCompanyName">
+        <value xml:lang="en">OFBiz: JP Translation</value>
+        <value xml:lang="ja">OFBiz: 日本語翻訳</value>
+    </property>
+    <property key="TranslateJpCompanySubtitle">
+        <value xml:lang="en">Apache OFBiz Japanese Translation Plugin</value>
+        <value xml:lang="ja">Apache OFBiz 日本語翻訳プラグイン</value>
+    </property>
+    <property key="TranslateJpViewPermissionError">
+        <value xml:lang="en">You do not have permission to view this page.</value>
+        <value xml:lang="ja">このページを表示する権限がありません。</value>
+    </property>
+
+    <!-- 画面タイトル・説明 -->
+    <property key="TranslateJpPageTitle">
+        <value xml:lang="en">Apply Japanese Translation</value>
+        <value xml:lang="ja">日本語翻訳の適用</value>
+    </property>
+    <property key="TranslateJpSelectTarget">
+        <value xml:lang="en">Select update targets</value>
+        <value xml:lang="ja">更新対象を選択してください</value>
+    </property>
+
+    <!-- 対象種別ラベル -->
+    <property key="TranslateJpTargetUiLabel">
+        <value xml:lang="en">UI Labels</value>
+        <value xml:lang="ja">UIラベル</value>
+    </property>
+    <property key="TranslateJpTargetDemoData">
+        <value xml:lang="en">Demo Data (coming soon)</value>
+        <value xml:lang="ja">デモデータ（準備中）</value>
+    </property>
+
+    <!-- ボタン -->
+    <property key="TranslateJpApplyButton">
+        <value xml:lang="en">Apply Translation</value>
+        <value xml:lang="ja">更新を実行</value>
+    </property>
+
+    <!-- 注意書き -->
+    <property key="TranslateJpRestartNotice">
+        <value xml:lang="en">After applying, OFBiz restart is required for the changes to take effect.</value>
+        <value xml:lang="ja">更新後、変更を反映するにはOFBizの再起動が必要です。</value>
+    </property>
+    <property key="TranslateJpBackupNotice">
+        <value xml:lang="en">Current files will be backed up before applying.</value>
+        <value xml:lang="ja">適用前に現在のファイルをバックアップします。</value>
+    </property>
+
+    <!-- 結果メッセージ -->
+    <property key="TranslateJpSuccessMessage">
+        <value xml:lang="en">Japanese translation has been applied successfully. Please restart OFBiz.</value>
+        <value xml:lang="ja">日本語翻訳を適用しました。OFBizを再起動してください。</value>
+    </property>
+    <property key="TranslateJpBackupCreated">
+        <value xml:lang="en">Backup created: </value>
+        <value xml:lang="ja">バックアップ作成先: </value>
+    </property>
+    <property key="TranslateJpErrorMessage">
+        <value xml:lang="en">An error occurred during the update: </value>
+        <value xml:lang="ja">更新中にエラーが発生しました: </value>
+    </property>
+    <property key="TranslateJpFileCount">
+        <value xml:lang="en">files</value>
+        <value xml:lang="ja">ファイル</value>
+    </property>
+    <property key="TranslateJpNoTargetSelected">
+        <value xml:lang="en">Please select at least one update target.</value>
+        <value xml:lang="ja">更新対象を少なくとも1つ選択してください。</value>
+    </property>
+
+</resource>

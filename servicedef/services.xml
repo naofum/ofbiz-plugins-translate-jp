@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/services.xsd">
+    <description>JP Translation Services</description>
+    <vendor>OFBiz JP</vendor>
+    <version>1.0</version>
+
+    <!--
+        UIラベルファイルの日本語翻訳を適用するサービス。
+        処理内容:
+          1. uilabel.bak/<yyyyMMdd_HHmmss>/ にOFBiz本体側の現行ファイルをバックアップ
+          2. uilabel/ 下の翻訳済みファイルをOFBiz本体側に上書きコピー
+        適用後はOFBizの再起動が必要。
+    -->
+    <service name="applyTranslationJp" engine="groovy"
+            location="component://translate-jp/src/main/groovy/org/apache/ofbiz/translatejp/TranslateJpServices.groovy"
+            invoke="applyTranslationJp" auth="true" use-transaction="false">
+        <description>Apply Japanese translation: backup originals and copy translated UILabel files</description>
+        <!-- targets: カンマ区切りの更新対象種別 ("uilabel" のみ対応。将来: "demodata" 等) -->
+        <attribute name="targets" type="String" mode="IN" optional="false"/>
+        <attribute name="successMessage" type="String" mode="OUT" optional="true"/>
+        <attribute name="backupPath"     type="String" mode="OUT" optional="true"/>
+        <attribute name="fileCount"      type="Integer" mode="OUT" optional="true"/>
+    </service>
+
+</services>
