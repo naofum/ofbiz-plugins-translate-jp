@@ -1,0 +1,138 @@
+diff --git a/applications/party/template/party/EditContactMech.ftl b/applications/party/template/party/EditContactMech.ftl
+index f418ab3053..4fddbf0db8 100644
+--- a/applications/party/template/party/EditContactMech.ftl
++++ b/applications/party/template/party/EditContactMech.ftl
+@@ -130,15 +130,16 @@ under the License.
+       </td>
+     </tr>
+     <tr>
+-      <td class="label">${uiLabelMap.PartyAddressLine1} *</td>
++      <td class="label">${uiLabelMap.PartyZipCode} *</td>
+       <td>
+-        <input type="text" size="100" maxlength="255" name="address1" value="${(mechMap.postalAddress.address1)?default(request.getParameter('address1')!)}" />
++        &#12306;<input type="text" size="12" maxlength="60" name="postalCode" value="${(mechMap.postalAddress.postalCode)?default(request.getParameter('postalCode')!)}" />
+       </td>
+     </tr>
+     <tr>
+-      <td class="label">${uiLabelMap.PartyAddressLine2}</td>
++      <td class="label">${uiLabelMap.PartyState}</td>
+       <td>
+-        <input type="text" size="100" maxlength="255" name="address2" value="${(mechMap.postalAddress.address2)?default(request.getParameter('address2')!)}" />
++        <select name="stateProvinceGeoId" id="editcontactmechform_stateProvinceGeoId">
++        </select>
+       </td>
+     </tr>
+     <tr>
+@@ -148,16 +149,15 @@ under the License.
+       </td>
+     </tr>
+     <tr>
+-      <td class="label">${uiLabelMap.PartyState}</td>
++      <td class="label">${uiLabelMap.PartyAddressLine1} *</td>
+       <td>
+-        <select name="stateProvinceGeoId" id="editcontactmechform_stateProvinceGeoId">
+-        </select>
++        <input type="text" size="100" maxlength="255" name="address1" value="${(mechMap.postalAddress.address1)?default(request.getParameter('address1')!)}" />
+       </td>
+     </tr>
+     <tr>
+-      <td class="label">${uiLabelMap.PartyZipCode} *</td>
++      <td class="label">${uiLabelMap.PartyAddressLine2}</td>
+       <td>
+-        <input type="text" size="30" maxlength="60" name="postalCode" value="${(mechMap.postalAddress.postalCode)?default(request.getParameter('postalCode')!)}" />
++        <input type="text" size="100" maxlength="255" name="address2" value="${(mechMap.postalAddress.address2)?default(request.getParameter('address2')!)}" />
+       </td>
+     </tr>
+     <tr>   
+diff --git a/applications/party/template/party/contactmechtemplates/PostalAddress_JPN.fo.ftl b/applications/party/template/party/contactmechtemplates/PostalAddress_JPN.fo.ftl
+index f9a97faa43..1ec5a22d7a 100644
+--- a/applications/party/template/party/contactmechtemplates/PostalAddress_JPN.fo.ftl
++++ b/applications/party/template/party/contactmechtemplates/PostalAddress_JPN.fo.ftl
+@@ -17,16 +17,28 @@ specific language governing permissions and limitations
+ under the License.
+ -->
+ <#escape x as x?xml>
+-  <fo:block>${postalAddress.address1!}</fo:block>
+-  <#if postalAddress.address2?has_content><fo:block>${postalAddress.address2}</fo:block></#if>
+   <fo:block>
+-    ${postalAddress.city!}
++    <#if postalAddress.postalCodeGeoId?has_content>
++      <#assign postalCodeGeo = postalAddress.getRelatedOne("PostalCodeGeo", true)>
++      &#12306;${postalCodeGeo.geoName}
++    <#elseif postalAddress.postalCode?has_content>
++      &#12306;${postalAddress.postalCode}
++    </#if>
++  </fo:block>
++  <fo:block>
+     <#if postalAddress.stateProvinceGeoId?has_content>
+       <#assign stateProvince = postalAddress.getRelatedOne("StateProvinceGeo", true)>
+-      , ${stateProvince.geoName}
++      ${stateProvince.geoName}${postalAddress.city!}
++    <#else>
++      ${postalAddress.city!}
+     </#if>
+-    ${postalAddress.postalCode!}
+   </fo:block>
++  <#if postalAddress.address1?has_content>
++    <fo:block>${postalAddress.address1}</fo:block>
++  </#if>
++  <#if postalAddress.address2?has_content>
++    <fo:block>${postalAddress.address2}</fo:block>
++  </#if>
+   <#if postalAddress.countryGeoId?has_content>
+     <fo:block>
+       <#assign country = postalAddress.getRelatedOne("CountryGeo", true)>
+diff --git a/applications/party/template/party/contactmechtemplates/PostalAddress_JPN.ftl b/applications/party/template/party/contactmechtemplates/PostalAddress_JPN.ftl
+index e9fafa2944..e763b2e4c4 100644
+--- a/applications/party/template/party/contactmechtemplates/PostalAddress_JPN.ftl
++++ b/applications/party/template/party/contactmechtemplates/PostalAddress_JPN.ftl
+@@ -19,19 +19,20 @@ under the License.
+   <div>
+     <#if postalAddress.toName?has_content><b>${uiLabelMap.PartyAddrToName}:</b> ${postalAddress.toName}<br /></#if>
+     <#if postalAddress.attnName?has_content><b>${uiLabelMap.PartyAddrAttnName}:</b> ${postalAddress.attnName}<br /></#if>
+-    ${postalAddress.address1!}<br />
+-    <#if postalAddress.address2?has_content>${postalAddress.address2}<br /></#if>
+-    ${postalAddress.city!},
+-    <#if postalAddress.stateProvinceGeoId?has_content>
+-      <#assign stateProvince = postalAddress.getRelatedOne("StateProvinceGeo", true)>
+-      ${stateProvince.geoName?default(stateProvince.abbreviation)}
+-    </#if>
+     <#if postalAddress.postalCodeGeoId?has_content>
+       <#assign postalCodeGeo = postalAddress.getRelatedOne("PostalCodeGeo", true)>
+-      ${postalCodeGeo.geoName}
++      &#12306;${postalCodeGeo.geoName}<br />
++    <#elseif postalAddress.postalCode?has_content>
++      &#12306;${postalAddress.postalCode}<br />
++    </#if>
++    <#if postalAddress.stateProvinceGeoId?has_content>
++      <#assign stateProvince = postalAddress.getRelatedOne("StateProvinceGeo", true)>
++      ${stateProvince.geoName?default(stateProvince.abbreviation)}${postalAddress.city!}<br />
+     <#else>
+-      ${postalAddress.postalCode!}
++      ${postalAddress.city!}<br />
+     </#if>
++    <#if postalAddress.address1?has_content>${postalAddress.address1}<br /></#if>
++    <#if postalAddress.address2?has_content>${postalAddress.address2}<br /></#if>
+     <#if postalAddress.countryGeoId?has_content><br />
+       <#assign country = postalAddress.getRelatedOne("CountryGeo", true)>
+       ${country.get("geoName", locale)?default(country.geoId)}
+diff --git a/applications/party/widget/partymgr/PartyForms.xml b/applications/party/widget/partymgr/PartyForms.xml
+index c6e0c34862..958bbc2130 100644
+--- a/applications/party/widget/partymgr/PartyForms.xml
++++ b/applications/party/widget/partymgr/PartyForms.xml
+@@ -615,11 +615,11 @@ under the License.
+         <field name="USER_LAST_NAME" title="${uiLabelMap.PartyLastName}" required-field="true"><text size="30" maxlength="60"/></field>
+         <field name="USER_SUFFIX" title="${uiLabelMap.PartySuffix}"><text size="10" maxlength="30"/></field>
+         <field name="ShippingAddressTitle" title="${uiLabelMap.PartyAddressMailingShipping}" title-area-style="group-label"><display description=" " also-hidden="false"/></field>
+-        <field name="USER_ADDRESS1" title="${uiLabelMap.CommonAddress1}" required-field="true"><text size="30" maxlength="60"/></field>
+-        <field name="USER_ADDRESS2" title="${uiLabelMap.CommonAddress2}"><text size="30" maxlength="60"/></field>
+-        <field name="USER_CITY" title="${uiLabelMap.CommonCity}" required-field="true"><text size="30" maxlength="60"/></field>
++        <field name="USER_POSTAL_CODE" title="${uiLabelMap.CommonZipPostalCode}" required-field="true"><text size="12" maxlength="30"/></field>
+         <field name="USER_STATE" title="${uiLabelMap.CommonState}" required-field="true"><drop-down allow-empty="false"/></field>
+-        <field name="USER_POSTAL_CODE" title="${uiLabelMap.CommonZipPostalCode}" required-field="true"><text size="10" maxlength="30"/></field>
++        <field name="USER_CITY" title="${uiLabelMap.CommonCity}" required-field="true"><text size="30" maxlength="255"/></field>
++        <field name="USER_ADDRESS1" title="${uiLabelMap.CommonAddress1}" required-field="true"><text size="30" maxlength="255"/></field>
++        <field name="USER_ADDRESS2" title="${uiLabelMap.CommonAddress2}"><text size="30" maxlength="255"/></field>
+         <field name="USER_COUNTRY" title="${uiLabelMap.CommonCountry}" required-field="true">
+             <drop-down no-current-selected-key="${defaultCountryGeoId}">
+                 <entity-options entity-name="Geo" key-field-name="geoId" description="${geoId}: ${geoName}">

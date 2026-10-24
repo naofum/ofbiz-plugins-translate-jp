@@ -76,3 +76,31 @@ under the License.
 
   </div>
 </div>
+
+<#-- 地方公共団体コードのインポート -->
+<div class="screenlet">
+  <div class="screenlet-title-bar">
+    <h3>${uiLabelMap.TranslateJpGeoImportTitle}</h3>
+  </div>
+  <div class="screenlet-body">
+
+    <form method="post" action="<@ofbizUrl>importMunicipalityCode</@ofbizUrl>">
+
+      <p>${uiLabelMap.TranslateJpGeoImportDescription}</p>
+
+      <#-- 注意書き -->
+      <div style="margin: 16px 0 8px 0; padding: 10px; background: #fff8e1; border-left: 4px solid #ffc107;">
+        <span style="color: #856404;">&#9888;&nbsp;${uiLabelMap.TranslateJpGeoImportNotice}</span>
+      </div>
+
+      <#-- 実行ボタン -->
+      <div style="margin-top: 16px;">
+        <input type="submit" value="${uiLabelMap.TranslateJpGeoImportButton}"
+               class="buttontext"
+               onclick="return confirm('${uiLabelMap.TranslateJpGeoImportConfirm}');"/>
+      </div>
+
+    </form>
+
+  </div>
+</div>

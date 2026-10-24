@@ -19,3 +19,14 @@
 
 // 外部ライブラリ依存なし（最小構成）
 dependencies {}
+
+// Core patch bundle for the Japanese postal-address widget.
+// The shared patch manager lives under tools/patchmgr.
+ext.patchManifest = file("${projectDir}/patches/24.09.07/manifest.json")
+apply from: "${rootDir}/gradle/patchmgr.gradle"
+
+tasks.register('testJpLocalizationPatch') {
+    group = 'translate-jp'
+    description = 'Alias for testCorePatch'
+    dependsOn 'testCorePatch'
+}

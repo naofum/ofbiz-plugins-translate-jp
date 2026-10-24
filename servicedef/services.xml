@@ -42,4 +42,33 @@ under the License.
         <attribute name="fileCount"      type="Integer" mode="OUT" optional="true"/>
     </service>
 
+    <!--
+        総務省「全国地方公共団体コード」を opendataapi.jp からダウンロードし、
+        OFBiz の Geo / GeoAssoc（市区町村）として insert/update するサービス。
+        処理内容:
+          1. opendataapi.jp の GraphQL(BFF) を呼び、S3 署名付きダウンロードURLを取得
+          2. data.jsonl をダウンロード（1行1レコードの JSON Lines）
+          3. 市区町村レコードを Geo(geoId=JP-{5桁}, geoTypeId=MUNICIPALITY, geoCode={6桁}) へ
+             都道府県→市区町村を GeoAssoc(REGIONS) へ upsert
+        都道府県 Geo(GeoData_JP.xml の JP-01..JP-47) は変更しない。
+        sourceUrl を指定すると、その URL から直接ダウンロードする（フォールバック）。
+    -->
+    <service name="translateJpImportMunicipalityCode" engine="java" auth="true" use-transaction="false"
+            location="org.apache.ofbiz.translatejp.MunicipalityCodeImporter"
+            invoke="importFromOpenDataApi">
+        <description>Import Japanese municipality codes from opendataapi.jp (soumu) as Geo/GeoAssoc</description>
+        <attribute name="sourceUrl"          type="String"  mode="IN"  optional="true"/>
+        <attribute name="successMessage"     type="String"  mode="OUT" optional="true"/>
+        <attribute name="dataVersion"        type="String"  mode="OUT" optional="true"/>
+        <attribute name="totalRecords"       type="Integer" mode="OUT" optional="true"/>
+        <attribute name="municipalityCount"  type="Integer" mode="OUT" optional="true"/>
+        <attribute name="prefectureCount"    type="Integer" mode="OUT" optional="true"/>
+        <attribute name="geoInserted"        type="Integer" mode="OUT" optional="true"/>
+        <attribute name="geoUpdated"         type="Integer" mode="OUT" optional="true"/>
+        <attribute name="geoUnchanged"       type="Integer" mode="OUT" optional="true"/>
+        <attribute name="geoAssocInserted"   type="Integer" mode="OUT" optional="true"/>
+        <attribute name="geoAssocExisting"   type="Integer" mode="OUT" optional="true"/>
+        <attribute name="geoImportSummary"   type="String"  mode="OUT" optional="true"/>
+    </service>
+
 </services>

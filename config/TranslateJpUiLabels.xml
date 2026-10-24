@@ -96,4 +96,30 @@ under the License.
         <value xml:lang="ja">更新対象を少なくとも1つ選択してください。</value>
     </property>
 
+    <!-- 地方公共団体コードのインポート -->
+    <property key="TranslateJpGeoImportTitle">
+        <value xml:lang="en">Municipality Codes (Geo Data)</value>
+        <value xml:lang="ja">地方公共団体コード</value>
+    </property>
+    <property key="TranslateJpGeoImportDescription">
+        <value xml:lang="en">Download the national local government codes and insert/update them as OFBiz Geo (municipality) data.</value>
+        <value xml:lang="ja">総務省の全国地方公共団体コードをダウンロードし、OFBizのGeo（市区町村）として登録・更新します。</value>
+    </property>
+    <property key="TranslateJpGeoImportButton">
+        <value xml:lang="en">Import Municipality Codes</value>
+        <value xml:lang="ja">地方公共団体コードのインポート</value>
+    </property>
+    <property key="TranslateJpGeoImportConfirm">
+        <value xml:lang="en">Download the municipality codes and insert/update Geo data. Continue?</value>
+        <value xml:lang="ja">地方公共団体コードをダウンロードしてGeoデータを登録・更新します。実行しますか？</value>
+    </property>
+    <property key="TranslateJpGeoImportNotice">
+        <value xml:lang="en">The latest data is fetched from opendataapi.jp over the Internet. No OFBiz restart is required.</value>
+        <value xml:lang="ja">インターネット経由でopendataapi.jpから最新データを取得します（OFBizの再起動は不要です）。</value>
+    </property>
+    <property key="TranslateJpGeoImportAttribution">
+        <value xml:lang="en">Source: National Local Government Codes (MIC) / opendataapi.jp (Government Standard Terms of Use 2.0).</value>
+        <value xml:lang="ja">出典：全国地方公共団体コード（総務省）／opendataapi.jp が作成（政府標準利用規約 第2.0版）</value>
+    </property>
+
 </resource>

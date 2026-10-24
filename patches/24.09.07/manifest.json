@@ -1,0 +1,38 @@
+{
+  "bundle": "jp-localization",
+  "version": "0.1.0",
+  "ofbiz": "24.09.07",
+  "description": "Japanese postal address widget and JPN address order",
+  "patches": [
+    {
+      "id": "0001-jp-address-widget",
+      "order": 10,
+      "mode": "diff",
+      "description": "Reorder and localize the party postal-address widget and JPN address templates",
+      "patch": "0001-jp-address-widget.patch",
+      "reversible": true,
+      "files": [
+        {
+          "path": "applications/party/template/party/EditContactMech.ftl",
+          "sha256Before": "f803367c4ac54985066174afd3bf69d7dfe442c319766d0eee9fb61ec36ba552",
+          "sha256After": "cc603a1ed0cfbc478f1fb7af22830cc62ba00fb1de1040484deff508061e1e5b"
+        },
+        {
+          "path": "applications/party/template/party/contactmechtemplates/PostalAddress_JPN.fo.ftl",
+          "sha256Before": "fb22698ba0f48f7f34caaf5e6b2f24a5f781680c2d36ab060af003c681fb77d2",
+          "sha256After": "b87708cc824b400b113928b6e8015ab222a5c3b6d59ff75bf53bf4e172e0b129"
+        },
+        {
+          "path": "applications/party/template/party/contactmechtemplates/PostalAddress_JPN.ftl",
+          "sha256Before": "43225ef8fce1aeb297811e4c8811b215afd62e116eb172e73de49012a7bf7e20",
+          "sha256After": "aa1ee8222f2efda1c1aa3b776504ce4fac50eaf5884453e05fc633b2b6b6ccec"
+        },
+        {
+          "path": "applications/party/widget/partymgr/PartyForms.xml",
+          "sha256Before": "4f8b26824a443a02ea8f459e2cef486a59c3fc05acc7cc2e718d8b750b2ef265",
+          "sha256After": "bd694c958785007a41aa886fe4206adddf49203ee6816d24b66890b4ed3699af"
+        }
+      ]
+    }
+  ]
+}

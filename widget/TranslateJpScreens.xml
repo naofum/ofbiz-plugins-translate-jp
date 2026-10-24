@@ -60,11 +60,35 @@ under the License.
                                         <container style="successMessage">
                                             <label>${requestAttributes._EVENT_MESSAGE_}</label>
                                         </container>
+                                    </widgets>
+                                </section>
+
+                                <!-- 翻訳適用時のみ: バックアップ先と再起動案内（fileCount がある場合） -->
+                                <section>
+                                    <condition>
+                                        <not><if-empty field="requestAttributes.fileCount"/></not>
+                                    </condition>
+                                    <widgets>
                                         <container style="successMessage">
                                             <label>${uiLabelMap.TranslateJpBackupCreated}${requestAttributes.backupPath}</label>
                                         </container>
                                         <container style="message">
                                             <label style="warning">${uiLabelMap.TranslateJpRestartNotice}</label>
+                                        </container>
+                                    </widgets>
+                                </section>
+
+                                <!-- 地方公共団体コード インポート結果（geoImportSummary がある場合） -->
+                                <section>
+                                    <condition>
+                                        <not><if-empty field="requestAttributes.geoImportSummary"/></not>
+                                    </condition>
+                                    <widgets>
+                                        <container style="message">
+                                            <label>${requestAttributes.geoImportSummary}</label>
+                                        </container>
+                                        <container style="message">
+                                            <label style="warning">${uiLabelMap.TranslateJpGeoImportAttribution}</label>
                                         </container>
                                     </widgets>
                                 </section>

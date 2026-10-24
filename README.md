@@ -14,8 +14,10 @@ Apache OFBiz の UI ラベル日本語翻訳を、本体ファイルへ安全に
 - 適用前に、元のファイルを `uilabel.bak/<タイムスタンプ>/` へ自動でバックアップします。
 - 更新後は OFBiz の再起動が必要です。
 - 管理者（`OFBTOOLS` 権限）のみアクセスできます。
+- 総務省の全国地方公共団体コードをダウンロードし、OFBiz の Geo（市区町村）として登録・更新できます。
 
-> 現在の対象リソースは **UILabel のみ** です。今後、デモデータなどの追加を予定しています。
+> 翻訳適用の対象リソースは **UILabel のみ** です（デモデータなどの追加を予定）。
+> 別機能として、総務省の全国地方公共団体コードを Geo データとして取り込めます。
 
 ---
 
@@ -56,6 +58,49 @@ Apache OFBiz の UI ラベル日本語翻訳を、本体ファイルへ安全に
 3. 確認ダイアログで注意事項を確認し、実行します。
 4. 成功メッセージが表示されたら、OFBiz を再起動して変更を反映させます。
 
+### 地方公共団体コードのインポート
+
+1. 「地方公共団体コード」欄の「地方公共団体コードのインポート」ボタンを押します。
+2. 確認ダイアログで注意事項を確認し、実行します。
+3. 結果（データ版・取込件数・Geo/GeoAssoc の更新内訳）が画面に表示されます。
+
+処理内容:
+
+- opendataapi.jp の GraphQL(BFF) を呼び出し、S3 署名付きダウンロードURLを取得して
+  `data.jsonl`（1行1レコードの JSON Lines）をダウンロードします。
+  - 生成元: `https://opendataapi.jp/data/providers/soumu/datasets/municipality_code/latest/`
+- 全国地方公共団体コード（6桁）を次のように取り込みます。
+
+  | 項目 | 値 |
+  | --- | --- |
+  | `geoId` | `JP-` + 5桁（JIS X0402 市区町村コード）例: `JP-13101` |
+  | `geoCode` | 6桁（全国地方公共団体コード。チェックディジット込み）例: `131016` |
+  | `geoTypeId` | `MUNICIPALITY` |
+  | `abbreviation` | 市区町村名 |
+  | `GeoAssoc` | 親 `JP-xx`（都道府県）→ 子 `JP-xxxxx`（市区町村）／`REGIONS` |
+
+- 都道府県レコード（`GeoData_JP.xml` の `JP-01`〜`JP-47`）は変更しません。
+- 既存データは更新（upsert）のみで、削除は行いません。再実行すると最新データに更新されます。
+- データ取得はネットワーク経由のため、OFBiz の再起動は不要です。
+- 政令指定都市の行政区（例: 札幌市中央区）はこのデータセットには含まれません。
+
+> 出典：全国地方公共団体コード（総務省）／[opendataapi.jp](https://opendataapi.jp/) が作成（政府標準利用規約 第2.0版）。
+> 帰属表示（クレジット）が必要です。
+
+#### 社内プロキシ / SSL検査環境での注意
+
+TLS検査を行うプロキシ配下では、Java が証明書を検証できず
+`PKIX path building failed` で失敗することがあります。その場合は次のいずれかを行ってください。
+
+- JDK のトラストストア（`cacerts`）にプロキシのルート証明機関を追加する。
+- OFBiz 起動時に Windows のルートストアを使うよう指定する。
+
+  ```bash
+  ./gradlew ofbiz -PjvmArgs="-Djavax.net.ssl.trustStoreType=WINDOWS-ROOT"
+  ```
+
+失敗時は画面のエラーメッセージにも同様の案内が表示されます。
+
 ### バックアップについて
 
 - 適用前に、更新対象となる OFBiz 本体ファイルが `plugins/translate-jp/uilabel.bak/yyyyMMdd_HHmmss/` へコピーされます。
@@ -70,6 +115,7 @@ plugins/translate-jp/
 ├── config/                 # プラグイン独自の UILabel 定義
 ├── servicedef/             # サービス定義
 ├── src/main/groovy/        # Groovy サービス・スクリプト
+├── src/main/java/          # Java サービス（地方公共団体コードのインポート）
 ├── webapp/translate-jp/    # Web 画面（ controller / FTL ）
 ├── widget/                 # スクリーン定義
 ├── uilabel/                # 翻訳済み UILabel XML ファイル群（適用対象）

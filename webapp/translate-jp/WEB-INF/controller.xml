@@ -40,6 +40,14 @@ under the License.
         <response name="error"   type="view"  value="main"/>
     </request-map>
 
+    <!-- 地方公共団体コードのインポート: ダウンロードしてGeoデータを登録/更新 -->
+    <request-map uri="importMunicipalityCode">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="translateJpImportMunicipalityCode"/>
+        <response name="success" type="view"  value="main"/>
+        <response name="error"   type="view"  value="main"/>
+    </request-map>
+
     <!-- ビューマッピング -->
     <view-map name="main" type="screen"
               page="component://translate-jp/widget/TranslateJpScreens.xml#main"/>
